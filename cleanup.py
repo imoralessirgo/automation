@@ -11,7 +11,7 @@ import shutil
 
 
 #### DEFINE FILE TYPR DICTIONARY
-file_type{
+file_type = {
         "pdf":"PDF",
         "doc":"WORD_DOCS",
         "jpg":"IMG",
@@ -25,13 +25,20 @@ file_type{
 
 
 if len(sys.argv) > 1:
-    if os.isdir(sys.argv[1]):
-        cur_path = sys.argv[1] + "\\" + sys.argv[1].basename + "_{}"
-        for f in os.listdir():
-            if file_type.get(f.split(".")[-1]) == None:
-
-            else if os.isdir(s.format(file_type.get(f.split(".")[-1])):
-
+    print(sys.argv[1])
+    if os.path.isdir(str(sys.argv[1])):
+    
+        cur_path = str(sys.argv[1]) + "/" + os.path.basename(sys.argv[1]) + "_{}"
+        if not os.path.isdir(cur_path.format("OTHER")):    
+            os.mkdir(cur_path.format("OTHER"))
+        for f in os.listdir(sys.argv[1]):
+            if file_type.get(f.split(".")[-1]) is None:
+                shutil.move(str(sys.argv[1]) + "/" + f,cur_path.format("OTHER"))
+            elif os.path.isdir(cur_path.format(file_type.get(f.split(".")[-1]))):
+                shutil.move(str(sys.argv[1]) + "/" + f,cur_path.format(file_type.get(f.split(".")[-1])))
+            else: 
+                os.mkdir(cur_path.format(file_type.get(f.split(".")[-1])))
+                shutil.move(str(sys.argv[1]) + "/" + f,cur_path.format(file_type.get(f.split(".")[-1])))
     else:
         print("could not find given directory")
         exit()
